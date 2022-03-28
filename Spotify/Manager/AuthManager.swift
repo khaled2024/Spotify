@@ -7,6 +7,11 @@
 
 import Foundation
 final class AuthManager{
+    
+    struct Constants {
+        static let ClientID = "c53b440812424b95a5e55b9e19eff504"
+        static let ClientSecret = "5a7c7294d06346be99eef7cc6d1dc607"
+    }
     static let shared = AuthManager()
     private init(){}
     

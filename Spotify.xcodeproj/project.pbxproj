@@ -12,6 +12,7 @@
 		EA38B8B627F0BD160067BA86 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA38B8B527F0BD160067BA86 /* HomeViewController.swift */; };
 		EA38B8BB27F0BD180067BA86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA38B8BA27F0BD180067BA86 /* Assets.xcassets */; };
 		EA38B8BE27F0BD180067BA86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA38B8BC27F0BD180067BA86 /* LaunchScreen.storyboard */; };
+		EA5A8C8027F23A4B00FCF61F /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5A8C7F27F23A4B00FCF61F /* Extension.swift */; };
 		EAB64F0427F0C39500BFEF8C /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB64F0327F0C39500BFEF8C /* TabBarViewController.swift */; };
 		EAB64F0627F0C3C800BFEF8C /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB64F0527F0C3C800BFEF8C /* SearchViewController.swift */; };
 		EAB64F0827F0C3EB00BFEF8C /* LibararyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB64F0727F0C3EB00BFEF8C /* LibararyViewController.swift */; };
@@ -39,6 +40,7 @@
 		EA38B8BA27F0BD180067BA86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EA38B8BD27F0BD180067BA86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EA38B8BF27F0BD180067BA86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA5A8C7F27F23A4B00FCF61F /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		EAB64F0327F0C39500BFEF8C /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		EAB64F0527F0C3C800BFEF8C /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		EAB64F0727F0C3EB00BFEF8C /* LibararyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibararyViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				EA38B8BA27F0BD180067BA86 /* Assets.xcassets */,
 				EA38B8B127F0BD160067BA86 /* AppDelegate.swift */,
 				EA38B8B327F0BD160067BA86 /* SceneDelegate.swift */,
+				EA5A8C7F27F23A4B00FCF61F /* Extension.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				EAB64F1C27F0C4CD00BFEF8C /* ApiCaller.swift in Sources */,
 				EAB64F0427F0C39500BFEF8C /* TabBarViewController.swift in Sources */,
 				EAB64F2227F0C52400BFEF8C /* AudioTrack.swift in Sources */,
+				EA5A8C8027F23A4B00FCF61F /* Extension.swift in Sources */,
 				EA38B8B627F0BD160067BA86 /* HomeViewController.swift in Sources */,
 				EAB64F0C27F0C43D00BFEF8C /* AuthViewController.swift in Sources */,
 				EAB64F1027F0C45700BFEF8C /* SettingViewController.swift in Sources */,

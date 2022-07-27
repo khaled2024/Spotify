@@ -24,6 +24,8 @@
 		EA16AAF42890BDC0006F41E7 /* AudioTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA16AAF32890BDC0006F41E7 /* AudioTrack.swift */; };
 		EA16AAF62890BDCC006F41E7 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA16AAF52890BDCC006F41E7 /* Artist.swift */; };
 		EA16AAF82890BDD7006F41E7 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA16AAF72890BDD7006F41E7 /* UserProfile.swift */; };
+		EA67FE842891E53C00D537C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA67FE832891E53C00D537C4 /* Constants.swift */; };
+		EA67FE862891E96500D537C4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA67FE852891E96500D537C4 /* Extensions.swift */; };
 		EA7BBEE32890B6F600665504 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7BBEE22890B6F600665504 /* AppDelegate.swift */; };
 		EA7BBEE52890B6F600665504 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7BBEE42890B6F600665504 /* SceneDelegate.swift */; };
 		EA7BBEE72890B6F600665504 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7BBEE62890B6F600665504 /* HomeViewController.swift */; };
@@ -49,6 +51,8 @@
 		EA16AAF32890BDC0006F41E7 /* AudioTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTrack.swift; sourceTree = "<group>"; };
 		EA16AAF52890BDCC006F41E7 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		EA16AAF72890BDD7006F41E7 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		EA67FE832891E53C00D537C4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		EA67FE852891E96500D537C4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EA7BBEDF2890B6F600665504 /* Spotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA7BBEE22890B6F600665504 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA7BBEE42890B6F600665504 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,8 +87,8 @@
 		EA16AADC2890BC63006F41E7 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				EA16AADD2890BC7C006F41E7 /* AuthViewController.swift */,
 				EA16AADF2890BC8B006F41E7 /* WelcomeViewController.swift */,
+				EA16AADD2890BC7C006F41E7 /* AuthViewController.swift */,
 				EA16AAE12890BCAC006F41E7 /* SettingViewController.swift */,
 				EA16AAE32890BCBB006F41E7 /* ProfileViewController.swift */,
 				EA16AAE52890BCC6006F41E7 /* PlayerViewController.swift */,
@@ -165,6 +169,7 @@
 				EA7BBEEB2890B6F800665504 /* Assets.xcassets */,
 				EA7BBEE22890B6F600665504 /* AppDelegate.swift */,
 				EA7BBEE42890B6F600665504 /* SceneDelegate.swift */,
+				EA67FE852891E96500D537C4 /* Extensions.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -175,6 +180,7 @@
 				EA16AAEB2890BD49006F41E7 /* AuthManager.swift */,
 				EA16AAED2890BD52006F41E7 /* ApiCaller.swift */,
 				EA16AAEF2890BD71006F41E7 /* HapticsManager.swift */,
+				EA67FE832891E53C00D537C4 /* Constants.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -258,8 +264,10 @@
 				EA16AAD82890BBE6006F41E7 /* SearchViewController.swift in Sources */,
 				EA16AAF02890BD71006F41E7 /* HapticsManager.swift in Sources */,
 				EA16AAF42890BDC0006F41E7 /* AudioTrack.swift in Sources */,
+				EA67FE862891E96500D537C4 /* Extensions.swift in Sources */,
 				EA7BBEE72890B6F600665504 /* HomeViewController.swift in Sources */,
 				EA16AADE2890BC7C006F41E7 /* AuthViewController.swift in Sources */,
+				EA67FE842891E53C00D537C4 /* Constants.swift in Sources */,
 				EA16AAE22890BCAC006F41E7 /* SettingViewController.swift in Sources */,
 				EA16AAF82890BDD7006F41E7 /* UserProfile.swift in Sources */,
 				EA16AADA2890BBE7006F41E7 /* LibraryViewController.swift in Sources */,

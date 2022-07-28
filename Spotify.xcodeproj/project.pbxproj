@@ -31,6 +31,7 @@
 		EA7BBEE72890B6F600665504 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7BBEE62890B6F600665504 /* HomeViewController.swift */; };
 		EA7BBEEC2890B6F800665504 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA7BBEEB2890B6F800665504 /* Assets.xcassets */; };
 		EA7BBEEF2890B6F800665504 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA7BBEED2890B6F800665504 /* LaunchScreen.storyboard */; };
+		EAE92F7A2893110500041706 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE92F792893110400041706 /* AuthResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		EA7BBEEB2890B6F800665504 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EA7BBEEE2890B6F800665504 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EA7BBEF02890B6F800665504 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EAE92F792893110400041706 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 				EA16AAF32890BDC0006F41E7 /* AudioTrack.swift */,
 				EA16AAF52890BDCC006F41E7 /* Artist.swift */,
 				EA16AAF72890BDD7006F41E7 /* UserProfile.swift */,
+				EAE92F792893110400041706 /* AuthResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				EA7BBEE32890B6F600665504 /* AppDelegate.swift in Sources */,
 				EA16AAE62890BCC6006F41E7 /* PlayerViewController.swift in Sources */,
 				EA16AAEA2890BD18006F41E7 /* SearchResultViewController.swift in Sources */,
+				EAE92F7A2893110500041706 /* AuthResponse.swift in Sources */,
 				EA7BBEE52890B6F600665504 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

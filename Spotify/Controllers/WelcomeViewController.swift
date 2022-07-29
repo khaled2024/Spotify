@@ -30,11 +30,13 @@ class WelcomeViewController: UIViewController {
     //MARK: - Private func
     @objc private func didTappedSignInButton(){
         let vc = AuthViewController()
+        // if completionHandler has a Value
         vc.completionHandler = { [weak self] success in
             DispatchQueue.main.async {
                 self?.handelSignIn(success: success)
             }
         }
+        // for fiest time sign in go to auth and sign in to Agree
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }

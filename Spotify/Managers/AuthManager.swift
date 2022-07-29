@@ -7,17 +7,15 @@
 
 import Foundation
 final class AuthManager{
-    
     static let shared = AuthManager()
-    private init(){
-    }
+    private init(){}
+    private var refreshingToken = false
     public var signInURL: URL?{
         let redirectURI = "https://www.google.com.eg"
         let base = "https://accounts.spotify.com/authorize"
         let string = "\(base)?response_type=code&client_id=\(Constants.Client_ID)&scope=\(Constants.scope)&redirect_uri=\(redirectURI)&show_dialog=TRUE"
         return URL(string: string)
     }
-    
     var isSignedIn: Bool{
         return accessToken != nil
     }
@@ -40,7 +38,7 @@ final class AuthManager{
         print(expirationDate)
         return currentData.addingTimeInterval(fiveMin) >= expirationDate
     }
-    //token
+    //MARK: -  get token
     public func exchangeCodeForToken(code: String,completion:@escaping((Bool)->Void)){
         guard let url = URL(string: Constants.tokenAPIURL)else{
             return
@@ -78,24 +76,46 @@ final class AuthManager{
                 print(error.localizedDescription)
                 completion(false)
             }
-            
-            
         }
         task.resume()
-        
     }
+    
+    //MARK: - supply Valid token to be used in api caller
+    private var onRefreshingBlocks = [((String)-> Void)]()
+    public func withValidToken(completion: @escaping (String)-> Void){
+        guard !refreshingToken else{
+            // append completion
+            onRefreshingBlocks.append(completion)
+            return
+        }
+        if shouldRefreshToken{
+            // refresh
+            refreshIfNeeded {[weak self] success in
+                if let token = self?.accessToken , success{
+                    completion(token)
+                }
+            }
+        }else if let token = accessToken{
+            completion(token)
+        }
+    }
+    //MARK: - Refresh token
     public func refreshIfNeeded(completion: @escaping(Bool)-> Void){
-        //        guard shouldRefreshToken else{
-        //            completion(true)
-        //            return
-        //        }
-        guard let refreshToken = self.refreshToken else {
+        guard !refreshingToken else{
+            return
+        }
+        guard shouldRefreshToken else{
+            completion(true)
+            return
+        }
+        guard let refreshToken = self.refreshToken else{
             return
         }
         // refresh token
         guard let url = URL(string: Constants.tokenAPIURL)else{
             return
         }
+        refreshingToken = true
         var components = URLComponents()
         components.queryItems = [
             URLQueryItem(name: "grant_type", value: "refresh_token"),
@@ -113,7 +133,9 @@ final class AuthManager{
         }
         request.setValue("Basic \(base64String)", forHTTPHeaderField: "Authorization")
         request.httpBody = components.query?.data(using: .utf8)
+        
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            self?.refreshingToken = false
             guard let data = data , error == nil else {
                 completion(false)
                 return
@@ -122,17 +144,16 @@ final class AuthManager{
                 // get data
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
                 self?.cacheToken(result: result)
+                self?.onRefreshingBlocks.forEach({$0(result.access_token)})
+                self?.onRefreshingBlocks.removeAll()
                 print("successfully refresh the token : \(data)")
                 completion(true)
             } catch{
                 print(error.localizedDescription)
                 completion(false)
             }
-            
-            
         }
         task.resume()
-        
     }
     // Get Token
     private func cacheToken(result: AuthResponse){
@@ -142,6 +163,5 @@ final class AuthManager{
         }
         // date of user login in + expire_in
         UserDefaults.standard.setValue(Date().addingTimeInterval(TimeInterval(result.expires_in)), forKey: "expirationDate")
-        
     }
 }

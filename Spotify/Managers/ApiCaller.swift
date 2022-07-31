@@ -95,9 +95,9 @@ class ApiCaller{
     }
     
     //MARK: - get Recommendation
-    public func getRecommendation(genres: Set<String>,completion: @escaping (Result<String , Error>)-> Void){
+    public func getRecommendation(genres: Set<String>,completion: @escaping (Result<RecommendationsResponse , Error>)-> Void){
         let seeds = genres.joined(separator: ",")
-        createRequest(with: URL(string: "\(Constant.baseApiUrl)/recommendations?seed_genres=\(seeds)"), type: .GET) { request in
+        createRequest(with: URL(string: "\(Constant.baseApiUrl)/recommendations?limit=40&seed_genres=\(seeds)"), type: .GET) { request in
             let task = URLSession.shared.dataTask(with:request) { data, response, error in
                 guard let data = data , error == nil else {
                     
@@ -105,10 +105,8 @@ class ApiCaller{
                     return
                 }
                 do {
-                    let result = try JSONSerialization.jsonObject(with: data , options: .allowFragments)
-                    //                    JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: data)
-                    print(result)
-                    //                    completion(.success(result))
+                    let result = try JSONDecoder().decode(RecommendationsResponse.self, from: data)
+                    completion(.success(result))
                 } catch{
                     completion(.failure(error))
                     print("failed to get Recommendation data \(error)")
@@ -127,7 +125,7 @@ class ApiCaller{
                 }
                 do {
                     let result = try JSONDecoder().decode(RecommendedGenresResponse.self, from: data)
-                    print(result)
+                    // print(result)
                     completion(.success(result))
                 } catch{
                     completion(.failure(error))

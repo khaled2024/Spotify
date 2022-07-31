@@ -97,7 +97,6 @@ final class AuthManager{
             }
         }else if let token = accessToken{
             completion(token)
-            print("the token : \(token)")
         }
     }
     //MARK: - Refresh token

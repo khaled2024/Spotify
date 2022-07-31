@@ -28,6 +28,10 @@
 		EA29CF5628947DD600E52454 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA29CF5528947DD600E52454 /* Setting.swift */; };
 		EA67FE842891E53C00D537C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA67FE832891E53C00D537C4 /* Constants.swift */; };
 		EA67FE862891E96500D537C4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA67FE852891E96500D537C4 /* Extensions.swift */; };
+		EA72B13B2895306900A2E9C8 /* NewReleasesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA72B13A2895306900A2E9C8 /* NewReleasesResponse.swift */; };
+		EA72B13D2895329400A2E9C8 /* ApiImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA72B13C2895329400A2E9C8 /* ApiImage.swift */; };
+		EA72B13F28953DB200A2E9C8 /* FeaturedPlaylistsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA72B13E28953DB200A2E9C8 /* FeaturedPlaylistsResponse.swift */; };
+		EA72B1412895FEB200A2E9C8 /* RecommendedGenresResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA72B1402895FEB200A2E9C8 /* RecommendedGenresResponse.swift */; };
 		EA7BBEE32890B6F600665504 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7BBEE22890B6F600665504 /* AppDelegate.swift */; };
 		EA7BBEE52890B6F600665504 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7BBEE42890B6F600665504 /* SceneDelegate.swift */; };
 		EA7BBEE72890B6F600665504 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7BBEE62890B6F600665504 /* HomeViewController.swift */; };
@@ -60,6 +64,10 @@
 		EA29CF5528947DD600E52454 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		EA67FE832891E53C00D537C4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EA67FE852891E96500D537C4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		EA72B13A2895306900A2E9C8 /* NewReleasesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReleasesResponse.swift; sourceTree = "<group>"; };
+		EA72B13C2895329400A2E9C8 /* ApiImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiImage.swift; sourceTree = "<group>"; };
+		EA72B13E28953DB200A2E9C8 /* FeaturedPlaylistsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedPlaylistsResponse.swift; sourceTree = "<group>"; };
+		EA72B1402895FEB200A2E9C8 /* RecommendedGenresResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedGenresResponse.swift; sourceTree = "<group>"; };
 		EA7BBEDF2890B6F600665504 /* Spotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA7BBEE22890B6F600665504 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA7BBEE42890B6F600665504 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -185,10 +193,14 @@
 			children = (
 				EAE92F792893110400041706 /* AuthResponse.swift */,
 				EA29CF5528947DD600E52454 /* Setting.swift */,
+				EA72B13C2895329400A2E9C8 /* ApiImage.swift */,
+				EA16AAF52890BDCC006F41E7 /* Artist.swift */,
 				EA16AAF72890BDD7006F41E7 /* UserProfile.swift */,
+				EA72B13A2895306900A2E9C8 /* NewReleasesResponse.swift */,
+				EA72B13E28953DB200A2E9C8 /* FeaturedPlaylistsResponse.swift */,
+				EA72B1402895FEB200A2E9C8 /* RecommendedGenresResponse.swift */,
 				EA16AAF12890BDB1006F41E7 /* Playlist.swift */,
 				EA16AAF32890BDC0006F41E7 /* AudioTrack.swift */,
-				EA16AAF52890BDCC006F41E7 /* Artist.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -329,13 +341,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA72B13F28953DB200A2E9C8 /* FeaturedPlaylistsResponse.swift in Sources */,
 				EA16AAD62890BBD3006F41E7 /* TabBarViewController.swift in Sources */,
 				EA16AAF22890BDB1006F41E7 /* Playlist.swift in Sources */,
 				EA16AAEC2890BD49006F41E7 /* AuthManager.swift in Sources */,
+				EA72B1412895FEB200A2E9C8 /* RecommendedGenresResponse.swift in Sources */,
 				EA16AAE02890BC8B006F41E7 /* WelcomeViewController.swift in Sources */,
+				EA72B13D2895329400A2E9C8 /* ApiImage.swift in Sources */,
 				EA16AAE42890BCBB006F41E7 /* ProfileViewController.swift in Sources */,
 				EA16AAEE2890BD52006F41E7 /* ApiCaller.swift in Sources */,
 				EA16AAD82890BBE6006F41E7 /* SearchViewController.swift in Sources */,
+				EA72B13B2895306900A2E9C8 /* NewReleasesResponse.swift in Sources */,
 				EA16AAF02890BD71006F41E7 /* HapticsManager.swift in Sources */,
 				EA16AAF42890BDC0006F41E7 /* AudioTrack.swift in Sources */,
 				EA67FE862891E96500D537C4 /* Extensions.swift in Sources */,
@@ -492,6 +508,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3TWF5CMBRA;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Spotify/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -519,6 +536,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3TWF5CMBRA;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Spotify/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

@@ -11,7 +11,7 @@ enum HttpMethod: String{
     case post
     case GET
 }
-enum APIERROR: Error {
+enum APIError: Error {
     case failedToGetData
 }
 struct Constant{
@@ -40,12 +40,11 @@ class ApiCaller{
         createRequest(with: URL(string: Constant.baseApiUrl + "/me"), type: .GET, completion: { baseRequest in
             let task = URLSession.shared.dataTask(with: baseRequest) { data, response, error in
                 guard error == nil ,let data = data else{
-                    completion(.failure(APIERROR.failedToGetData))
+                    completion(.failure(APIError.failedToGetData))
                     return
                 }
                 do {
                     let result = try JSONDecoder().decode(UserProfile.self, from: data)
-                    print(result)
                     completion(.success(result))
                 } catch  {
                     print(error.localizedDescription)
@@ -54,5 +53,88 @@ class ApiCaller{
             }
             task.resume()
         })
+    }
+    //MARK: - get new Releases
+    public func getNewReleases(completion: @escaping (Result <NewReleasesResponse , Error>)-> Void){
+        createRequest(with: URL(string: "\(Constant.baseApiUrl)/browse/new-releases?limit=50"), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with:request) { data, response, error in
+                guard let data = data , error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(NewReleasesResponse.self, from: data)
+                    completion(.success(result))
+                } catch{
+                    completion(.failure(error))
+                    print("failed to get releases data \(error)")
+                }
+            }
+            task.resume()
+        }
+    }
+    //MARK: - get Featured playlist
+    public func getFeaturedPlaylist(completion: @escaping (Result<FeaturedPlaylistsResponse , Error>)-> Void){
+        createRequest(with: URL(string: "\(Constant.baseApiUrl)/browse/featured-playlists?limit=2"), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with:request) { data, response, error in
+                guard let data = data , error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: data)
+                    print(result)
+                    completion(.success(result))
+                } catch{
+                    completion(.failure(error))
+                    print("failed to get featured release data \(error)")
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    //MARK: - get Recommendation
+    public func getRecommendation(genres: Set<String>,completion: @escaping (Result<String , Error>)-> Void){
+        let seeds = genres.joined(separator: ",")
+        createRequest(with: URL(string: "\(Constant.baseApiUrl)/recommendations?seed_genres=\(seeds)"), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with:request) { data, response, error in
+                guard let data = data , error == nil else {
+                    
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONSerialization.jsonObject(with: data , options: .allowFragments)
+                    //                    JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: data)
+                    print(result)
+                    //                    completion(.success(result))
+                } catch{
+                    completion(.failure(error))
+                    print("failed to get Recommendation data \(error)")
+                }
+            }
+            task.resume()
+        }
+    }
+    //MARK: - get recommendations geners
+    public func getRecommendationGenres(completion: @escaping (Result<RecommendedGenresResponse , Error>)-> Void){
+        createRequest(with: URL(string: "\(Constant.baseApiUrl)/recommendations/available-genre-seeds"), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with:request) { data, response, error in
+                guard let data = data , error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(RecommendedGenresResponse.self, from: data)
+                    print(result)
+                    completion(.success(result))
+                } catch{
+                    completion(.failure(error))
+                    print("failed to getRecommendation-Genres \(error)")
+                }
+            }
+            task.resume()
+        }
     }
 }

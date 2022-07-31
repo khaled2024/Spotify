@@ -34,8 +34,8 @@ final class AuthManager{
         }
         let currentData = Date()
         let fiveMin = TimeInterval(300)
-        print(currentData.addingTimeInterval(fiveMin))
-        print(expirationDate)
+        print("expirationDate : \(expirationDate)")
+        print("current date + fiv min : \(currentData.addingTimeInterval(fiveMin))")
         return currentData.addingTimeInterval(fiveMin) >= expirationDate
     }
     //MARK: -  get token
@@ -97,15 +97,16 @@ final class AuthManager{
             }
         }else if let token = accessToken{
             completion(token)
+            print("the token : \(token)")
         }
     }
     //MARK: - Refresh token
-    public func refreshIfNeeded(completion: @escaping(Bool)-> Void){
+    public func refreshIfNeeded(completion: ((Bool)-> Void)?){
         guard !refreshingToken else{
             return
         }
         guard shouldRefreshToken else{
-            completion(true)
+            completion?(true)
             return
         }
         guard let refreshToken = self.refreshToken else{
@@ -128,7 +129,7 @@ final class AuthManager{
         let data = basicToken.data(using: .utf8)
         guard let base64String = data?.base64EncodedString()else{
             print("failed to get base 64")
-            completion(false)
+            completion?(false)
             return
         }
         request.setValue("Basic \(base64String)", forHTTPHeaderField: "Authorization")
@@ -137,7 +138,7 @@ final class AuthManager{
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             self?.refreshingToken = false
             guard let data = data , error == nil else {
-                completion(false)
+                completion?(false)
                 return
             }
             do {
@@ -147,15 +148,15 @@ final class AuthManager{
                 self?.onRefreshingBlocks.forEach({$0(result.access_token)})
                 self?.onRefreshingBlocks.removeAll()
                 print("successfully refresh the token : \(data)")
-                completion(true)
+                completion?(true)
             } catch{
                 print(error.localizedDescription)
-                completion(false)
+                completion?(false)
             }
         }
         task.resume()
     }
-    // Get Token
+    //MARK: -  Get Token
     private func cacheToken(result: AuthResponse){
         UserDefaults.standard.setValue(result.access_token, forKey: "access_token")
         if let refreshToken = result.refresh_token {

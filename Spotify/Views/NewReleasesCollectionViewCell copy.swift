@@ -14,6 +14,8 @@ class NewReleasesCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName:"photo")
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 6
         return imageView
     }()
     private let albumNameLabel:UILabel={
@@ -38,13 +40,12 @@ class NewReleasesCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .secondarySystemBackground
         contentView.addSubview(albumCoverImageView)
         contentView.addSubview(albumNameLabel)
         contentView.addSubview(numberOfTracksLabel)
         contentView.addSubview(artistNameLabel)
+        contentView.backgroundColor = .secondarySystemBackground
         contentView.clipsToBounds = true
-        
     }
     required init?(coder: NSCoder) {
         fatalError()
@@ -56,6 +57,7 @@ class NewReleasesCollectionViewCell: UICollectionViewCell {
         albumNameLabel.sizeToFit()
         artistNameLabel.sizeToFit()
         numberOfTracksLabel.sizeToFit()
+        
         
         albumCoverImageView.frame = CGRect(x: 5, y: 5, width: imageSize, height: imageSize)
         let albumHeight = min(60, albumLableSize.height)

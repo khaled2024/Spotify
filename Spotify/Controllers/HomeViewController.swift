@@ -9,8 +9,8 @@ import UIKit
 
 enum BrowseSectionType{
     case newReleases(viewModel: [NewReleasesCellViewModel]) //1
-    case featuredPlaylists(viewModel: [NewReleasesCellViewModel]) //2
-    case recommendedTracks(viewModel: [NewReleasesCellViewModel]) //3
+    case featuredPlaylists(viewModel: [FeaturedPlaylistCellViewModel]) //2
+    case recommendedTracks(viewModel: [RecommendedTrackCellViewModel]) //3
 }
 class HomeViewController: UIViewController {
     
@@ -129,8 +129,12 @@ class HomeViewController: UIViewController {
         sections.append(.newReleases(viewModel: newAlbum.compactMap({ album in
             return NewReleasesCellViewModel(name: album.name , artworkURL: URL(string: album.images.first?.url ?? ""), numOfTracks: album.total_tracks, artistName: album.artists.first?.name ?? "")
         })))
-        sections.append(.featuredPlaylists(viewModel: []))
-        sections.append(.recommendedTracks(viewModel: []))
+        sections.append(.featuredPlaylists(viewModel: playlist.compactMap({ playlist in
+            return FeaturedPlaylistCellViewModel(name: playlist.name, artwork: URL(string: playlist.images.first?.url ?? ""), creatorName: playlist.owner.display_name)
+        })))
+        sections.append(.recommendedTracks(viewModel: tracks.compactMap({ audioTrack in
+            return RecommendedTrackCellViewModel(name: audioTrack.name, artistName: audioTrack.artists.first?.name ?? "", artworkURL: URL(string: audioTrack.album.images.first?.url ?? ""))
+        })))
         collectionView.reloadData()
     }
     private func configCollectionView(){
@@ -169,25 +173,21 @@ extension HomeViewController: UICollectionViewDelegate , UICollectionViewDataSou
                 return UICollectionViewCell()
                 
             }
-            cell.backgroundColor = .red
             cell.config(with: viewModel[indexPath.row])
             return cell
-        case .featuredPlaylists(let viewModel): break
+        case .featuredPlaylists(let viewModel):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturedPlaylistsCollectionViewCell.identifier, for: indexPath) as? FeaturedPlaylistsCollectionViewCell else{
                 return UICollectionViewCell()
-                
             }
-            cell.backgroundColor = .blue
+            cell.config(with: viewModel[indexPath.row])
             return cell
-        case .recommendedTracks(let viewModel): break
+        case .recommendedTracks(let viewModel):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedTracksCollectionViewCell.identifier, for: indexPath) as? RecommendedTracksCollectionViewCell else{
                 return UICollectionViewCell()
-                
             }
-            cell.backgroundColor = .orange
+            cell.config(with: viewModel[indexPath.row])
             return cell
         }
-        return UICollectionViewCell()
     }
     //section & Group & items
     static func  createSectionLayout(with section: Int)-> NSCollectionLayoutSection{

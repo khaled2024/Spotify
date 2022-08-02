@@ -61,7 +61,7 @@ class NewReleasesCollectionViewCell: UICollectionViewCell {
         
         albumCoverImageView.frame = CGRect(x: 5, y: 5, width: imageSize, height: imageSize)
         let albumHeight = min(60, albumLableSize.height)
-        albumNameLabel.frame = CGRect(x: albumCoverImageView.right + 10, y: albumCoverImageView.top - 5, width: albumLableSize.width, height: albumHeight)
+        albumNameLabel.frame = CGRect(x: albumCoverImageView.right + 10, y: albumCoverImageView.top , width: albumLableSize.width, height: albumHeight)
         
         artistNameLabel.frame = CGRect(x: albumCoverImageView.right + 10, y: albumNameLabel.bottom, width: contentView.width - albumCoverImageView.width - 5, height: 30)
         

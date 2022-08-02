@@ -83,7 +83,6 @@ class ApiCaller{
                 }
                 do {
                     let result = try JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: data)
-                    print(result)
                     completion(.success(result))
                 } catch{
                     completion(.failure(error))
@@ -125,7 +124,6 @@ class ApiCaller{
                 }
                 do {
                     let result = try JSONDecoder().decode(RecommendedGenresResponse.self, from: data)
-                    // print(result)
                     completion(.success(result))
                 } catch{
                     completion(.failure(error))
@@ -135,4 +133,48 @@ class ApiCaller{
             task.resume()
         }
     }
+    
+    //MARK: - Get album details
+    public func getAlbumDetails(for album: Album , completion: @escaping (Result<AlbumDetailsResponse,Error>)-> Void){
+        createRequest(with: URL(string: Constant.baseApiUrl + "/albums/" + album.id), type: .GET) {
+            request in
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard  error == nil , let data = data else{
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(AlbumDetailsResponse.self, from: data)
+                    print(result)
+                    completion(.success(result))
+                } catch  {
+                    print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    //MARK: - Get playlist details
+    public func getPlaylistDetails(for playlist: Playlist , completion: @escaping (Result<PlaylistDetailsResponse,Error>)-> Void){
+        createRequest(with: URL(string: Constant.baseApiUrl + "/playlists/" + playlist.id), type: .GET) {
+            request in
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard  error == nil , let data = data else{
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(PlaylistDetailsResponse.self, from: data)
+                    completion(.success(result))
+                } catch{
+                    print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    //MARK: - Get audio track details
+    
 }

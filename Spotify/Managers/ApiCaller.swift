@@ -33,7 +33,6 @@ class ApiCaller{
             request.timeoutInterval = 30
             completion(request)
         }
-        
     }
     //MARK: - GetUserProfile
     public func getCurrentUserProfile(completion: @escaping (Result<UserProfile,Error>)-> Void){
@@ -54,7 +53,8 @@ class ApiCaller{
             task.resume()
         })
     }
-    //MARK: - get new Releases
+    //MARK: - get new Releases albums
+    //&country=EG
     public func getNewReleases(completion: @escaping (Result <NewReleasesResponse , Error>)-> Void){
         createRequest(with: URL(string: "\(Constant.baseApiUrl)/browse/new-releases?limit=50"), type: .GET) { request in
             let task = URLSession.shared.dataTask(with:request) { data, response, error in
@@ -74,6 +74,7 @@ class ApiCaller{
         }
     }
     //MARK: - get Featured playlist
+    //&country=EG
     public func getFeaturedPlaylist(completion: @escaping (Result<FeaturedPlaylistsResponse , Error>)-> Void){
         createRequest(with: URL(string: "\(Constant.baseApiUrl)/browse/featured-playlists?limit=20"), type: .GET) { request in
             let task = URLSession.shared.dataTask(with:request) { data, response, error in
@@ -95,6 +96,7 @@ class ApiCaller{
     
     //MARK: - get Recommendation
     public func getRecommendation(genres: Set<String>,completion: @escaping (Result<RecommendationsResponse , Error>)-> Void){
+        //&country=EG
         let seeds = genres.joined(separator: ",")
         createRequest(with: URL(string: "\(Constant.baseApiUrl)/recommendations?limit=40&seed_genres=\(seeds)"), type: .GET) { request in
             let task = URLSession.shared.dataTask(with:request) { data, response, error in
@@ -136,7 +138,7 @@ class ApiCaller{
     
     //MARK: - Get album details
     public func getAlbumDetails(for album: Album , completion: @escaping (Result<AlbumDetailsResponse,Error>)-> Void){
-        createRequest(with: URL(string: Constant.baseApiUrl + "/albums/" + album.id), type: .GET) {
+        createRequest(with: URL(string: Constant.baseApiUrl + "/albums/" + album.id) , type: .GET) {
             request in
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard  error == nil , let data = data else{

@@ -179,4 +179,45 @@ class ApiCaller{
     }
     //MARK: - Get audio track details
     
+    
+    //MARK: - Get all Categories
+    public func getCategories(completion: @escaping (Result <[Category],Error>)->Void){
+        createRequest(with: URL(string: Constant.baseApiUrl + "/browse/categories?limit=20"), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil ,let data = data else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(AllCatogeriesResponse.self, from: data)
+                    completion(.success(result.categories.items))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    //MARK: - Get single Category
+    public func getCategoryPlaylist(category: Category,completion: @escaping (Result <[Playlist],Error>)->Void){
+        createRequest(with: URL(string: Constant.baseApiUrl + "/browse/categories/\(category.id)/playlists?limit=50"), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil ,let data = data else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(CategoryPlaylistsResponse.self, from: data)
+                    let playlist = result.playlists.items
+                    completion(.success(playlist))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
 }

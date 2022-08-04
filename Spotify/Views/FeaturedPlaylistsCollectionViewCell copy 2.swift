@@ -40,6 +40,7 @@ class FeaturedPlaylistsCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(playlistNameLabel)
         contentView.addSubview(creatorNameLabel)
         contentView.clipsToBounds = true
+//        contentView.backgroundColor = .secondarySystemBackground
         
     }
     required init?(coder: NSCoder) {

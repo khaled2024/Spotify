@@ -7,5 +7,5 @@
 
 import Foundation
 struct ApiImage: Codable{
-    let url:String
+    let url: String
 }

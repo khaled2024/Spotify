@@ -182,7 +182,6 @@ class ApiCaller{
     
     
     
-    
     //MARK: - search
     // query.addingPercentEncoding to when user write a space in query didt handle this space
     public func search(query: String , completion: @escaping (Result< [SearchResult] , Error>)->Void){
@@ -195,7 +194,6 @@ class ApiCaller{
                 }
                 do {
                     let result = try JSONDecoder().decode(SearchResultResponse.self, from: data)
-//                    JSONSerialization.jsonObject(with: data , options: .allowFragments)
                     var searchResults: [SearchResult] = []
                     searchResults.append(contentsOf: result.tracks.items.compactMap({SearchResult.track(model: $0)}))
                     searchResults.append(contentsOf: result.albums.items.compactMap({SearchResult.album(model: $0)}))
@@ -206,7 +204,6 @@ class ApiCaller{
                     print(error.localizedDescription)
                     completion(.failure(error))
                 }
-
             }
             task.resume()
         }

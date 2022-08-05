@@ -7,6 +7,7 @@
 
 import UIKit
 import SDWebImage
+import SafariServices
 class SearchViewController: UIViewController{
     
     private var categories = [Category]()
@@ -57,8 +58,6 @@ class SearchViewController: UIViewController{
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
     }
-    
-    
 }
 //MARK: - UICollectionViewDelegate , UICollectionViewDataSource
 extension SearchViewController : UICollectionViewDelegate , UICollectionViewDataSource{
@@ -85,17 +84,15 @@ extension SearchViewController : UICollectionViewDelegate , UICollectionViewData
         navigationController?.modalPresentationStyle = .fullScreen
         
     }
-    
-    
 }
 //MARK: - UISearchResultsUpdating , UISearchBarDelegate
 extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate , SearchResultViewControllerDelegate{
     func updateSearchResults(for searchController: UISearchController) {
-       
+        
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let resultController = searchViewController.searchResultsController as? SearchResultViewController
-                ,let query = searchBar.text , !query.trimmingCharacters(in: .whitespaces).isEmpty else{
+        ,let query = searchBar.text , !query.trimmingCharacters(in: .whitespaces).isEmpty else{
             return
         }
         resultController.delegate = self
@@ -113,10 +110,17 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate , 
             }
         }
     }
+    // the delegate method :-
     func didTappedResult(_ result: SearchResult) {
         switch result{
         case .artist(model: let model):
-            break
+            guard let url = URL(string: model.external_urls["spotify"] ?? "") else{
+                return
+            }
+            let vc = SFSafariViewController(url: url)
+            present(vc, animated: true)
+            
+            
         case .album(model: let model):
             let vc = AlbumViewController(album: model)
             vc.navigationItem.largeTitleDisplayMode = .never

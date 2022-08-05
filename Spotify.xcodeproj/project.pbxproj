@@ -26,6 +26,8 @@
 		EA16AAF62890BDCC006F41E7 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA16AAF52890BDCC006F41E7 /* Artist.swift */; };
 		EA16AAF82890BDD7006F41E7 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA16AAF72890BDD7006F41E7 /* UserProfile.swift */; };
 		EA29CF5628947DD600E52454 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA29CF5528947DD600E52454 /* Setting.swift */; };
+		EA383EB6289D40B400545ADE /* SearchResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA383EB5289D40B400545ADE /* SearchResultResponse.swift */; };
+		EA383EB8289D485F00545ADE /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA383EB7289D485F00545ADE /* SearchResult.swift */; };
 		EA3BCAFB289C22B3005E7381 /* AllCatogeriesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3BCAFA289C22B3005E7381 /* AllCatogeriesResponse.swift */; };
 		EA3BCAFD289C3164005E7381 /* CategoryCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3BCAFC289C3164005E7381 /* CategoryCollectionViewCellViewModel.swift */; };
 		EA3BCAFF289C35FC005E7381 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3BCAFE289C35FC005E7381 /* CategoryViewController.swift */; };
@@ -81,6 +83,8 @@
 		EA16AAF52890BDCC006F41E7 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		EA16AAF72890BDD7006F41E7 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		EA29CF5528947DD600E52454 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
+		EA383EB5289D40B400545ADE /* SearchResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultResponse.swift; sourceTree = "<group>"; };
+		EA383EB7289D485F00545ADE /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		EA3BCAFA289C22B3005E7381 /* AllCatogeriesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCatogeriesResponse.swift; sourceTree = "<group>"; };
 		EA3BCAFC289C3164005E7381 /* CategoryCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		EA3BCAFE289C35FC005E7381 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
@@ -256,6 +260,8 @@
 				EACAE79528999CC8003F5872 /* AlbumDetailsResponse.swift */,
 				EACAE7972899A365003F5872 /* PlaylistDetailsResponse.swift */,
 				EA3BCAFA289C22B3005E7381 /* AllCatogeriesResponse.swift */,
+				EA383EB5289D40B400545ADE /* SearchResultResponse.swift */,
+				EA383EB7289D485F00545ADE /* SearchResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -442,11 +448,13 @@
 				EA730EFD289B3B1C00F55441 /* CategoryCollectionViewCell.swift in Sources */,
 				EA874AFE28970DAA003F05B5 /* FeaturedPlaylistsCollectionViewCell copy 2.swift in Sources */,
 				EACAE79C2899E1DE003F5872 /* PlaylistHeaderViewModel.swift in Sources */,
+				EA383EB8289D485F00545ADE /* SearchResult.swift in Sources */,
 				EA16AADA2890BBE7006F41E7 /* LibraryViewController.swift in Sources */,
 				EA730EF9289AFA0300F55441 /* AlbumTrackCollectionViewCell.swift in Sources */,
 				EA16AAF62890BDCC006F41E7 /* Artist.swift in Sources */,
 				EA16AAE82890BCF4006F41E7 /* PlaylistViewController.swift in Sources */,
 				EA7BBEE32890B6F600665504 /* AppDelegate.swift in Sources */,
+				EA383EB6289D40B400545ADE /* SearchResultResponse.swift in Sources */,
 				EA16AAE62890BCC6006F41E7 /* PlayerViewController.swift in Sources */,
 				EA16AAEA2890BD18006F41E7 /* SearchResultViewController.swift in Sources */,
 				EA3BCAFF289C35FC005E7381 /* CategoryViewController.swift in Sources */,

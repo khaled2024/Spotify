@@ -180,6 +180,37 @@ class ApiCaller{
     //MARK: - Get audio track details
     
     
+    
+    
+    
+    //MARK: - search
+    // query.addingPercentEncoding to when user write a space in query didt handle this space
+    public func search(query: String , completion: @escaping (Result< [SearchResult] , Error>)->Void){
+        createRequest(with: URL(string: Constant.baseApiUrl + "/search?limit=10&type=album,artist,playlist,track&q=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"), type: .GET) { request in
+            print(request.url?.absoluteString ?? "non")
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data , error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(SearchResultResponse.self, from: data)
+//                    JSONSerialization.jsonObject(with: data , options: .allowFragments)
+                    var searchResults: [SearchResult] = []
+                    searchResults.append(contentsOf: result.tracks.items.compactMap({SearchResult.track(model: $0)}))
+                    searchResults.append(contentsOf: result.albums.items.compactMap({SearchResult.album(model: $0)}))
+                    searchResults.append(contentsOf: result.artists.items.compactMap({SearchResult.artist(model: $0)}))
+                    searchResults.append(contentsOf: result.playlists.items.compactMap({SearchResult.playlist(model: $0)}))
+                    completion(.success(searchResults))
+                } catch  {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
+
+            }
+            task.resume()
+        }
+    }
     //MARK: - Get all Categories
     public func getCategories(completion: @escaping (Result <[Category],Error>)->Void){
         createRequest(with: URL(string: Constant.baseApiUrl + "/browse/categories?limit=20"), type: .GET) { request in

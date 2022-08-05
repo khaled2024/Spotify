@@ -8,8 +8,8 @@
 import UIKit
 import SDWebImage
 class SearchViewController: UIViewController{
-    private var categories = [Category]()
     
+    private var categories = [Category]()
     private let searchViewController: UISearchController = {
         let result = SearchResultViewController()
         let vc = UISearchController(searchResultsController: result)
@@ -38,6 +38,7 @@ class SearchViewController: UIViewController{
         collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: CategoryCollectionViewCell.identfier)
         collectionView.delegate = self
         collectionView.dataSource = self
+        searchViewController.searchBar.delegate = self
         collectionView.backgroundColor = .systemBackground
         ApiCaller.shared.getCategories { [weak self] result in
             DispatchQueue.main.async {
@@ -85,20 +86,52 @@ extension SearchViewController : UICollectionViewDelegate , UICollectionViewData
         
     }
     
+    
 }
-//MARK: - UISearchResultsUpdating
-
-extension SearchViewController : UISearchResultsUpdating {
+//MARK: - UISearchResultsUpdating , UISearchBarDelegate
+extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate , SearchResultViewControllerDelegate{
     func updateSearchResults(for searchController: UISearchController) {
-        guard let resultController = searchController.searchResultsController as? SearchResultViewController
-                ,let query = searchController.searchBar.text , !query.trimmingCharacters(in: .whitespaces).isEmpty else{
+       
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let resultController = searchViewController.searchResultsController as? SearchResultViewController
+                ,let query = searchBar.text , !query.trimmingCharacters(in: .whitespaces).isEmpty else{
             return
         }
-        // resultController.update(with results)
+        resultController.delegate = self
         print(query)
-        // perform search
+        ApiCaller.shared.search(query: query) { result in
+            DispatchQueue.main.async {
+                switch result{
+                case.success(let results):
+                    print(results)
+                    resultController.update(with: results)
+                    break
+                case.failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
+    func didTappedResult(_ result: SearchResult) {
+        switch result{
+        case .artist(model: let model):
+            break
+        case .album(model: let model):
+            let vc = AlbumViewController(album: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        case .track(model: let model):
+            break
+        case .playlist(model: let model):
+            let vc = PlaylistViewController(playlist: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
 }
+
 
 
 

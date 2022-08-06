@@ -12,6 +12,7 @@ class PlaylistViewController: UIViewController{
     //MARK: - vars & outlets
     private let playlist: Playlist
     private var viewModels = [RecommendedTrackCellViewModel]()
+    private var tracks = [AudioTrack]()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { _, _ in
         // item
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0)))
@@ -56,20 +57,21 @@ class PlaylistViewController: UIViewController{
         // get data
         DispatchQueue.main.async {
             ApiCaller.shared.getPlaylistDetails(for: self.playlist) { [weak self] result in
-                switch result{
-                case .success(let model):
-                    DispatchQueue.main.async {
-                        self?.viewModels = model.tracks.items.compactMap({ item in
-                            RecommendedTrackCellViewModel(
-                                name: item.track.name,
-                                artistName: item.track.artists.first?.name ?? "",
-                                artworkURL: URL(string: item.track.album?.images.first?.url ?? ""))
-                            
-                        })
-                        self?.collectionView.reloadData()
+                DispatchQueue.main.async {
+                    switch result{
+                    case .success(let model):
+                        self?.tracks = model.tracks.items.compactMap({ $0.track})
+                            self?.viewModels = model.tracks.items.compactMap({ item in
+                                RecommendedTrackCellViewModel(
+                                    name: item.track.name,
+                                    artistName: item.track.artists.first?.name ?? "",
+                                    artworkURL: URL(string: item.track.album?.images.first?.url ?? ""))
+                                
+                            })
+                            self?.collectionView.reloadData()
+                    case.failure(let error):
+                        print(error)
                     }
-                case.failure(let error):
-                    print(error)
                 }
             }
         }
@@ -119,6 +121,8 @@ extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        let track = tracks[indexPath.row]
+        PlaybackPresenter.startPlayback(from: self, track: track)
         
     }
     
@@ -127,5 +131,6 @@ extension PlaylistViewController: PlaylistHeaderCollectionReusableViewDelegate{
     func PlaylistHeaderCollectionReusableViewDidTappedPlayAll(header: PlaylistHeaderCollectionReusableView) {
         // start play playlist all in queue
         print("play all")
+        PlaybackPresenter.startPlayback(from: self, tracks: tracks)
     }
 }

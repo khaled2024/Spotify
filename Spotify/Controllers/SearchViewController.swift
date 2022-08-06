@@ -125,7 +125,8 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate , 
             let vc = AlbumViewController(album: model)
             vc.navigationItem.largeTitleDisplayMode = .never
             navigationController?.pushViewController(vc, animated: true)
-        case .track(model: let model):
+        case .track(model: let track):
+            PlaybackPresenter.startPlayback(from: self, track: track)
             break
         case .playlist(model: let model):
             let vc = PlaylistViewController(playlist: model)

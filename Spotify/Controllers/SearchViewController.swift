@@ -3,13 +3,12 @@
 //  Spotify
 //
 //  Created by KhaleD HuSsien on 27/07/2022.
-//
+
 
 import UIKit
 import SDWebImage
 import SafariServices
 class SearchViewController: UIViewController{
-    
     private var categories = [Category]()
     private let searchViewController: UISearchController = {
         let result = SearchResultViewController()
@@ -19,7 +18,6 @@ class SearchViewController: UIViewController{
         vc.definesPresentationContext = true
         return vc
     }()
-    
     // collection view
     private let collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { _, _ in
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
@@ -52,7 +50,6 @@ class SearchViewController: UIViewController{
                 }
             }
         }
-        
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -82,17 +79,15 @@ extension SearchViewController : UICollectionViewDelegate , UICollectionViewData
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
         navigationController?.modalPresentationStyle = .fullScreen
-        
     }
 }
 //MARK: - UISearchResultsUpdating , UISearchBarDelegate
 extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate , SearchResultViewControllerDelegate{
     func updateSearchResults(for searchController: UISearchController) {
-        
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let resultController = searchViewController.searchResultsController as? SearchResultViewController
-        ,let query = searchBar.text , !query.trimmingCharacters(in: .whitespaces).isEmpty else{
+                ,let query = searchBar.text , !query.trimmingCharacters(in: .whitespaces).isEmpty else{
             return
         }
         resultController.delegate = self
@@ -119,14 +114,12 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate , 
             }
             let vc = SFSafariViewController(url: url)
             present(vc, animated: true)
-            
-            
         case .album(model: let model):
             let vc = AlbumViewController(album: model)
             vc.navigationItem.largeTitleDisplayMode = .never
             navigationController?.pushViewController(vc, animated: true)
         case .track(model: let track):
-            PlaybackPresenter.startPlayback(from: self, track: track)
+            PlaybackPresenter.shared.startPlayback(from: self, track: track)
             break
         case .playlist(model: let model):
             let vc = PlaylistViewController(playlist: model)
@@ -134,9 +127,4 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate , 
             navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
 }
-
-
-
-

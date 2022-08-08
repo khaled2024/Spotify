@@ -3,18 +3,24 @@
 //  Spotify
 //
 //  Created by KhaleD HuSsien on 06/08/2022.
-//
 
 import Foundation
 import UIKit
+
 protocol PlayerControllViewDelegate: AnyObject{
     func playerControllViewDidTapPlayPauseButton(_ playerControllerView: PlayerControllView)
     func playerControllViewDidTapForwardButton(_ playerControllerView: PlayerControllView)
     func playerControllViewDidTapBackwardsButton(_ playerControllerView: PlayerControllView)
+    func playerControllViewSlideVolume(_ playerControllerView: PlayerControllView, didSlideSlider value: Float)
 }
-                                         
+struct PlayerControllViewModel {
+    let title: String?
+    let subTitle: String?
+}
+
 final class PlayerControllView: UIView{
     weak var delegate: PlayerControllViewDelegate?
+    private var isPlaying = true
     private let volumeSlider: UISlider = {
         let slider = UISlider()
         slider.value = 0.5
@@ -63,6 +69,7 @@ final class PlayerControllView: UIView{
         addSubview(volumeSlider)
         addSubview(titleLable)
         addSubview(subTitleLable)
+        volumeSlider.addTarget(self, action: #selector(didSlideSlider), for: .valueChanged)
         clipsToBounds = true
         
         pauseBtn.addTarget(self, action: #selector(didTapPause), for: .touchUpInside)
@@ -70,8 +77,19 @@ final class PlayerControllView: UIView{
         forwardBtn.addTarget(self, action: #selector(didTapForward), for: .touchUpInside)
     }
     
+    @objc func didSlideSlider(_ slider: UISlider ){
+        let value = slider.value
+        delegate?.playerControllViewSlideVolume(self, didSlideSlider: value)
+    }
     @objc func didTapPause(){
+        self.isPlaying = !isPlaying
         delegate?.playerControllViewDidTapPlayPauseButton(self)
+        
+        // update the icon
+        let pause = UIImage(systemName: "pause.fill",withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .regular))
+        let play = UIImage(systemName: "play.fill",withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .regular))
+        pauseBtn.setImage(isPlaying ? pause : play, for: .normal)
+        
     }
     @objc func didTapBack(){
         delegate?.playerControllViewDidTapBackwardsButton(self)
@@ -93,5 +111,9 @@ final class PlayerControllView: UIView{
         backBtn.frame = CGRect(x:pauseBtn.left-80-btnSize, y: pauseBtn.top, width: btnSize, height: btnSize)
         forwardBtn.frame = CGRect(x:pauseBtn.right+80, y: pauseBtn.top, width: btnSize, height: btnSize)
         
+    }
+    func config(with viewModel: PlayerControllViewModel){
+        self.titleLable.text = viewModel.title
+        self.subTitleLable.text = viewModel.subTitle
     }
 }

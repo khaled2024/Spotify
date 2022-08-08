@@ -1,9 +1,7 @@
-//
 //  PlaylistHeaderCollectionReusableView.swift
 //  Spotify
 //
 //  Created by KhaleD HuSsien on 03/08/2022.
-//
 
 import UIKit
 import SDWebImage
@@ -11,6 +9,7 @@ import SDWebImage
 protocol PlaylistHeaderCollectionReusableViewDelegate: AnyObject {
     func PlaylistHeaderCollectionReusableViewDidTappedPlayAll(header: PlaylistHeaderCollectionReusableView)
 }
+
 final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
     static let identifer = "PlaylistHeaderCollectionReusableView"
     //MARK: - vars & outlets
@@ -64,7 +63,6 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
         playAllButton.addTarget(self, action: #selector(didTappedSignInButton), for: .touchUpInside)
         
     }
-    
     @objc func didTappedSignInButton(){
         delegate?.PlaylistHeaderCollectionReusableViewDidTappedPlayAll(header: self)
     }

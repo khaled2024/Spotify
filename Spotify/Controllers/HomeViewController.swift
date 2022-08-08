@@ -226,7 +226,7 @@ extension HomeViewController: UICollectionViewDelegate , UICollectionViewDataSou
             navigationController?.pushViewController(vc, animated: true)
         case .recommendedTracks:
             let track = self.tracks[indexPath.row]
-            PlaybackPresenter.startPlayback(from: self, track: track)
+            PlaybackPresenter.shared.startPlayback(from: self, track: track)
         }
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

@@ -15,12 +15,12 @@ protocol PlayerViewControllerDelegate: AnyObject {
 }
 class PlayerViewController: UIViewController {
     //MARK: - vars & outlet
+    // for title & subtitle & imageURL
     weak var dataSource: playerDataSource?
     weak var delegate: PlayerViewControllerDelegate?
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .blue
         return imageView
     }()
     private let controllerView = PlayerControllView()
@@ -55,6 +55,9 @@ class PlayerViewController: UIViewController {
     
     @objc func shareTappedBtn(){
         // action
+    }
+    func refreshUI(){
+        configure()
     }
     
 }

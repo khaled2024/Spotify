@@ -6,7 +6,7 @@
 
 import Foundation
 import UIKit
-
+//MARK: - protocol
 protocol PlayerControllViewDelegate: AnyObject{
     func playerControllViewDidTapPlayPauseButton(_ playerControllerView: PlayerControllView)
     func playerControllViewDidTapForwardButton(_ playerControllerView: PlayerControllView)
@@ -26,17 +26,18 @@ final class PlayerControllView: UIView{
         slider.value = 0.5
         return slider
     }()
+    //MARK: - vars & outlets
     private let titleLable: UILabel = {
         let lable = UILabel()
         lable.font = .systemFont(ofSize: 21, weight: .semibold)
-        lable.text = "Khlaed hussien"
+        lable.text = "----"
         lable.textColor = .label
         return lable
     }()
     private let subTitleLable: UILabel = {
         let lable = UILabel()
         lable.font = .systemFont(ofSize: 18, weight: .regular)
-        lable.text = "Khlaed hussien Khlaed hussien Khlaed hussien Khlaed hussien"
+        lable.text = "--------------- -------- ----------------"
         lable.numberOfLines = 0
         lable.textColor = .label
         return lable
@@ -59,7 +60,7 @@ final class PlayerControllView: UIView{
         btn.setImage(UIImage(systemName: "pause.fill",withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)), for: .normal)
         return btn
     }()
-    
+    //MARK: - lifecycles
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
@@ -112,6 +113,7 @@ final class PlayerControllView: UIView{
         forwardBtn.frame = CGRect(x:pauseBtn.right+80, y: pauseBtn.top, width: btnSize, height: btnSize)
         
     }
+    //MARK: - private functions
     func config(with viewModel: PlayerControllViewModel){
         self.titleLable.text = viewModel.title
         self.subTitleLable.text = viewModel.subTitle

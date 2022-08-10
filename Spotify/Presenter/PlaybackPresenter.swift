@@ -14,7 +14,6 @@ protocol playerDataSource: AnyObject{
     var songName: String?{get}
     var subTitleName: String?{get}
     var imageURL: URL?{get}
-    
 }
 //MARK: - class beginning
 final class PlaybackPresenter{
@@ -24,15 +23,12 @@ final class PlaybackPresenter{
     static let shared = PlaybackPresenter()
     private var track: AudioTrack?
     private var tracks = [AudioTrack]()
+    var index = 0
+    var playerVC = PlayerViewController()
     var currentTrack: AudioTrack?{
         if let track = track , tracks.isEmpty {
             return track
         }else if let player = self.playerQueue, !tracks.isEmpty{
-            let item = player.currentItem
-            let items = player.items()
-            guard let index = items.firstIndex(where: {$0 == item}) else{
-                return nil
-            }
             return tracks[index]
         }
         return nil
@@ -54,6 +50,7 @@ final class PlaybackPresenter{
         viewController.present(UINavigationController(rootViewController: vc), animated: true) {
             self.player?.play()
         }
+        self.playerVC = vc
     }
     // for playlist
     func startPlayback(from viewController: UIViewController , tracks: [AudioTrack]){
@@ -66,13 +63,15 @@ final class PlaybackPresenter{
             guard let url = URL(string: track.preview_url ?? "") else{
                 return nil
             }
-           return AVPlayerItem(url: url)
+            return AVPlayerItem(url: url)
             
         }
         self.playerQueue = AVQueuePlayer(items: items)
         self.playerQueue?.volume = 0
         self.playerQueue?.play()
         viewController.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+        self.playerVC = vc
+        
     }
 }
 //MARK: - playerDataSource delegate
@@ -92,7 +91,6 @@ extension PlaybackPresenter: PlayerViewControllerDelegate{
     func didSlideSlider(_ value: Float) {
         player?.volume = value
     }
-    
     func didTapPlayPause() {
         if let player = player {
             if player.timeControlStatus == .playing {
@@ -111,21 +109,25 @@ extension PlaybackPresenter: PlayerViewControllerDelegate{
     func didTapForward() {
         if tracks.isEmpty{
             player?.pause()
+        }else if let player = playerQueue {
+            player.advanceToNextItem()
+            self.index += 1
+            print(index)
+            playerVC.refreshUI()
+        }
+    }
+    
+    func didTapBackward() {
+        if tracks.isEmpty{
+            player?.pause()
             player?.play()
         }else if let firstItem = playerQueue?.items().first{
+            // previous track
             playerQueue?.pause()
             playerQueue?.removeAllItems()
             playerQueue = AVQueuePlayer(items: [firstItem])
             playerQueue?.play()
             playerQueue?.volume = 0
-        }
-    }
-
-    func didTapBackward() {
-        if tracks.isEmpty{
-            player?.pause()
-        }else{
-            // next track
         }
     }
     

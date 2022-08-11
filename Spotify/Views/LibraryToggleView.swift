@@ -17,7 +17,7 @@ class LibraryToggleView: UIView {
         case playlist
         case album
     }
-    private var state: State = .playlist
+     var state: State = .playlist
     weak var delegate: LibraryToggleViewDelegate?
     private let playlistButton: UIButton = {
         let button = UIButton()

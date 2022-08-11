@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import UIKit
 
 enum HttpMethod: String{
-    case post
+    case POST
     case GET
 }
 enum APIError: Error {
@@ -177,11 +178,75 @@ class ApiCaller{
             task.resume()
         }
     }
-    //MARK: - Get audio track details
-    
-    
-    
-    
+    // get all current user playlists
+    public func getCurrentUserPlaylist(compleation: @escaping (Result<[Playlist] , Error>)-> Void){
+        createRequest(with: URL(string: Constant.baseApiUrl + "/me/playlists?limit=10"), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil , let data = data  else {
+                    compleation(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(LibraryPlaylistResponse.self, from: data)
+                    compleation(.success(result.items))
+                } catch  {
+                    print(error.localizedDescription)
+                    compleation(.failure(error))
+                }
+
+            }
+            task.resume()
+        }
+    }
+    // Create playlist
+    public func createPlaylist(with name: String , complation: @escaping (Bool)-> Void){
+        getCurrentUserProfile { [weak self] result in
+            switch result{
+            case .success(let profile):
+                let urlString = Constant.baseApiUrl + "/users/\(profile.id)/playlists"
+                print(urlString)
+                self?.createRequest(with: URL(string: urlString), type: .POST) { baseRequest in
+                    var request = baseRequest
+                    let json =  [
+                        "name": name,
+                        "scope": "playlist-modify-private"
+                    ]
+                    request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+                    print("starting creation")
+                    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                        guard let data = data , error == nil else{
+                            complation(false)
+                            return
+                        }
+                        do {
+                            let result = try JSONSerialization.jsonObject(with: data , options: .allowFragments)
+                            if let response = result as? [String:Any],response["id"] as? String != nil {
+                                print("created")
+                                complation(true)
+                            }else{
+                                print("failed to get id")
+                                complation(false)
+                            }
+                        } catch  {
+                            print(error.localizedDescription)
+                            complation(false)
+                        }
+                    }
+                    task.resume()
+                }
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    // add track to playlist
+    public func addTrackToPlaylist(track: AudioTrack , playlist: Playlist , completion: @escaping (Bool)-> Void){
+        
+    }
+    // remove track from playlist
+    public func removeTrackFromPlaylist(track: AudioTrack,playlist: Playlist, completion: @escaping (Bool)-> Void){
+        
+    }
     //MARK: - search
     // query.addingPercentEncoding to when user write a space in query didt handle this space
     public func search(query: String , completion: @escaping (Result< [SearchResult] , Error>)->Void){
@@ -247,5 +312,6 @@ class ApiCaller{
             task.resume()
         }
     }
+    
     
 }

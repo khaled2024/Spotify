@@ -209,8 +209,8 @@ class ApiCaller{
                     var request = baseRequest
                     let json =  [
                         "name": name,
-                        "scope": "playlist-modify-private"
-                    ]
+                        "public": false
+                    ] as [String : Any]
                     request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
                     print("starting creation")
                     let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -227,6 +227,7 @@ class ApiCaller{
                                 print("failed to get id")
                                 complation(false)
                             }
+                            print(result)
                         } catch  {
                             print(error.localizedDescription)
                             complation(false)
@@ -241,7 +242,32 @@ class ApiCaller{
     }
     // add track to playlist
     public func addTrackToPlaylist(track: AudioTrack , playlist: Playlist , completion: @escaping (Bool)-> Void){
-        
+        createRequest(with: URL(string: Constant.baseApiUrl+"/playlists/\(playlist.id)/tracks"), type: .POST) { baseRequest in
+            var request = baseRequest
+            let json = [
+                "uris" :[
+                    "spotify:track:\(track.id)"
+                ]
+            ]
+            request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil , let data = data else{
+                    completion(false)
+                    return
+                }
+                do {
+                    let result = try JSONSerialization.jsonObject(with: data,options: .allowFragments)
+                    if let response = result as? [String:Any], response["snapshot_id"] as? String != nil {
+                        print(result)
+                    }
+                } catch  {
+                    completion(false)
+                    print(error.localizedDescription)
+                }
+            }
+            task.resume()
+        }
     }
     // remove track from playlist
     public func removeTrackFromPlaylist(track: AudioTrack,playlist: Playlist, completion: @escaping (Bool)-> Void){

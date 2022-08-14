@@ -53,6 +53,7 @@ class HomeViewController: UIViewController {
         configCollectionView()
         view.addSubview(spinner)
         fechData()
+        addLongTapGesture()
     }
     
     override func viewDidLayoutSubviews() {
@@ -61,6 +62,39 @@ class HomeViewController: UIViewController {
         
     }
     //MARK: - private func
+    // get long press geustre
+    func addLongTapGesture(){
+        let geustre = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress))
+        collectionView.isUserInteractionEnabled = true
+        collectionView.addGestureRecognizer(geustre)
+    }
+    @objc func didLongPress(_ gesture: UILongPressGestureRecognizer){
+        guard gesture.state == .began else{
+            return
+        }
+        let touchPoint = gesture.location(in: collectionView)
+        guard let indexPath = collectionView.indexPathForItem(at: touchPoint) , indexPath.section == 2 else{
+            return
+        }
+        let model = tracks[indexPath.row]
+        let actionSheet = UIAlertController(title: model.name, message: "would you like to add this to a playlist ?", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Cancle", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Add to playlist", style: .default, handler: { [weak self] alertAction in
+            DispatchQueue.main.async {
+                let vc = LibraryPlaylistViewController()
+                vc.selectionHandler = {playlist in
+                    ApiCaller.shared.addTrackToPlaylist(track: model, playlist: playlist) { success in
+                        if success{
+                            print("added to playlist \(success)")
+                        }
+                    }
+                }
+                vc.title = "Select playlist"
+                self?.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+            }
+        }))
+        present(actionSheet, animated: true, completion: nil)
+    }
     @objc func settingButtonTapped(){
         let vc = SettingViewController()
         vc.title = "Setting"

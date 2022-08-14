@@ -10,6 +10,7 @@ import UIKit
 class LibraryPlaylistViewController: UIViewController{
     
     var playlists = [Playlist]()
+    var selectionHandler: ((_ playlist: Playlist)->Void)?
     private let noPlaylistView = ActionLableView()
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero , style: .grouped)
@@ -24,6 +25,12 @@ class LibraryPlaylistViewController: UIViewController{
         tableView.dataSource = self
         setUpNoPlaylist()
         fetchData()
+        if selectionHandler != nil {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didCloseBtn))
+        }
+    }
+    @objc func didCloseBtn(){
+        dismiss(animated: true ,completion: nil)
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -91,6 +98,7 @@ class LibraryPlaylistViewController: UIViewController{
         
     }
 }
+//MARK: - ActionLableViewDelegate , UITableViewDelegate , UITableViewDataSource
 extension LibraryPlaylistViewController: ActionLableViewDelegate{
     func ActionLableViewDidTapButton(_ actionView: ActionLableView) {
         showCreatePlaylistAlert()
@@ -107,8 +115,22 @@ extension LibraryPlaylistViewController : UITableViewDelegate , UITableViewDataS
         cell.config(with: SearchResultSubTitleTableViewCellViewModel(title: playlist.name, subTitle: playlist.owner.display_name, imageUrl: URL(string: playlist.images.first?.url ?? "")))
         return cell
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let playlist = playlists[indexPath.row]
+        // لو هيا فاضيه كمل عادي لو غير كده هتحط فيها البلاي ليست
+        guard selectionHandler == nil else{
+            selectionHandler?(playlist)
+            dismiss(animated: true)
+            return
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+        let vc = PlaylistViewController(playlist: playlist)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 80
     }
     
     

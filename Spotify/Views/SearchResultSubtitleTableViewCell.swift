@@ -61,9 +61,7 @@ class SearchResultSubtitleTableViewCell: UITableViewCell {
     func config(with viewModel: SearchResultSubTitleTableViewCellViewModel){
         lable.text = viewModel.title
         subLable.text = viewModel.subTitle
-        iconImageView.sd_setImage(with: viewModel.imageUrl , placeholderImage: UIImage(systemName: "photo"))
-        
+        iconImageView.sd_setImage(with: viewModel.imageUrl , placeholderImage: UIImage(systemName: "music.note" , withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)))
+                
     }
-    
-    
 }

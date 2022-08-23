@@ -49,6 +49,26 @@ class SettingViewController: UIViewController {
     }
     private func signOutTapped(){
         // sign out
+        print("signOut")
+        let alert = UIAlertController(title: "SignOut", message: "Are you sure you want to sign out?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancle", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Sign out", style: .destructive, handler: { _ in
+            AuthManager.shared.signOut { [weak self] signOut in
+                if signOut {
+                    DispatchQueue.main.async {
+                        let navVC = UINavigationController(rootViewController: WelcomeViewController())
+                        navVC.navigationBar.prefersLargeTitles = true
+                        navVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
+                        navVC.modalPresentationStyle = .fullScreen
+                        navVC.modalTransitionStyle = .flipHorizontal
+                        self?.present(navVC, animated: true, completion: {
+                            self?.navigationController?.popToRootViewController(animated: false)
+                        })
+                    }
+                }
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
 }
@@ -70,7 +90,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // call handeler for cell
-        let model = sections[indexPath.row].option[indexPath.row]
+        let model = sections[indexPath.section].option[indexPath.row]
         model.handler()
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

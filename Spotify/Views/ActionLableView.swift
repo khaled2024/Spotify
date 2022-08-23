@@ -16,7 +16,6 @@ protocol ActionLableViewDelegate: AnyObject {
 }
 class ActionLableView: UIView {
     weak var delegate: ActionLableViewDelegate?
-    
     private let lable: UILabel = {
         let lable = UILabel()
         lable.textAlignment = .center

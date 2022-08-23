@@ -8,7 +8,7 @@
 import UIKit
 
 class LibraryViewController: UIViewController {
-
+    
     //MARK: - vars & outlets
     private let playlistsVC = LibraryPlaylistViewController()
     private let AlbumsVC = LibraryAlbumViewController()

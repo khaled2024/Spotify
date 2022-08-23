@@ -88,8 +88,10 @@ class LibraryPlaylistViewController: UIViewController{
             ApiCaller.shared.createPlaylist(with: text) { [weak self] success in
                 if success {
                     // refrech playlists
+                    HapticsManager.shared.vibrate(for: .success)
                     self?.fetchData()
                 }else{
+                    HapticsManager.shared.vibrate(for: .error)
                     print("failed to create playlist")
                 }
             }
@@ -116,6 +118,7 @@ extension LibraryPlaylistViewController : UITableViewDelegate , UITableViewDataS
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        HapticsManager.shared.vibrateForSelection()
         let playlist = playlists[indexPath.row]
         // لو هيا فاضيه كمل عادي لو غير كده هتحط فيها البلاي ليست
         guard selectionHandler == nil else{
@@ -126,6 +129,7 @@ extension LibraryPlaylistViewController : UITableViewDelegate , UITableViewDataS
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = PlaylistViewController(playlist: playlist)
         vc.navigationItem.largeTitleDisplayMode = .never
+        vc.isOwner = true
         navigationController?.pushViewController(vc, animated: true)
         
     }

@@ -15,16 +15,52 @@ class WelcomeViewController: UIViewController {
         button.backgroundColor = .white
         return button
     }()
+    private let logoImage: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.image = UIImage(named: "albums")
+        return image
+    }()
+    private let overlayView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.alpha = 0.4
+        return view
+    }()
+    private let logoImageView: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        image.image = UIImage(named: "Logo")
+        return image
+    }()
+    private let lable: UILabel = {
+        let lable = UILabel()
+        lable.textColor = .white
+        lable.font = UIFont.systemFont(ofSize: 32, weight: .semibold)
+        lable.text = "Listen to millions of Songs"
+        lable.textAlignment = .center
+        lable.numberOfLines = 0
+        return lable
+    }()
     //MARK: - Life cycle
     override func viewDidLoad(){
         super.viewDidLoad()
         title = "Spotify"
-        view.backgroundColor = .systemGreen
+        view.backgroundColor = .black
+        view.addSubview(logoImage)
+        view.addSubview(overlayView)
+        view.addSubview(lable)
+        view.addSubview(logoImageView)
         view.addSubview(signInButton)
+
         signInButton.addTarget(self, action: #selector(didTappedSignInButton), for: .touchUpInside)
     }
     override func viewDidLayoutSubviews(){
         super.viewDidLayoutSubviews()
+        overlayView.frame = view.bounds
+        logoImage.frame = view.bounds
+        logoImageView.frame = CGRect(x: (view.width-120)/2, y: (view.height-250)/2, width: 120, height: 120)
+        lable.frame = CGRect(x: 30, y: logoImageView.bottom+15, width: view.width-60, height: 150)
         signInButton.frame = CGRect(x: 20, y: view.height - 70 - view.safeAreaInsets.bottom, width: view.width - 40, height: 50)
     }
     //MARK: - Private func

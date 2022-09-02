@@ -13,6 +13,7 @@ enum HttpMethod: String{
     case POST
     case GET
     case DELETE
+    case PUT
 }
 enum APIError: Error {
     case failedToGetData
@@ -202,23 +203,39 @@ class ApiCaller{
         }
     }
     //MARK: -  get all current User Albums
-    public func getCurrentUserAlbums(compleation: @escaping (Result<[Album] , Error>)-> Void){
+    public func getCurrentUserAlbums(completion: @escaping (Result<[Album] , Error>)-> Void){
         createRequest(with: URL(string: Constant.baseApiUrl + "/me/albums"), type: .GET) { request in
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard error == nil , let data = data  else {
-                    compleation(.failure(APIError.failedToGetData))
+                    completion(.failure(APIError.failedToGetData))
                     return
                 }
                 do {
                     let result = try JSONDecoder().decode(LibraryAlbumsResponse.self, from: data)
-//                    JSONSerialization.jsonObject(with: data)
-//                    print(result)
-                    
-                    compleation(.success(result.items))
+                    completion(.success(result.items.compactMap({ saveAlbum in
+                        saveAlbum.album
+                    })))
                 } catch  {
                     print(error.localizedDescription)
-                    compleation(.failure(error))
+                    completion(.failure(error))
                 }
+            }
+            task.resume()
+        }
+    }
+    //MARK: - save album
+    public func saveAlbum(album: Album , completion: @escaping (Bool)-> Void){
+        createRequest(with: URL(string: Constant.baseApiUrl + "/me/albums?ids=\(album.id)"), type: .PUT) { baseRequest in
+            var request = baseRequest
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil 
+                        , let code = (response as? HTTPURLResponse)?.statusCode else {
+                    completion(false)
+                    return
+                }
+                print(code)
+                completion(code == 200)
             }
             task.resume()
         }
@@ -253,7 +270,6 @@ class ApiCaller{
                                 print("failed to get id")
                                 complation(false)
                             }
-                            print(result)
                         } catch  {
                             print(error.localizedDescription)
                             complation(false)

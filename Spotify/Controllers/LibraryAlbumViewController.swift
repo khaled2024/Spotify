@@ -10,6 +10,7 @@ import UIKit
 class LibraryAlbumViewController: UIViewController {
     var albums = [Album]()
     private let noAlbumView = ActionLableView()
+    var observer: NSObjectProtocol?
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero , style: .grouped)
         tableView.register(SearchResultSubtitleTableViewCell.self, forCellReuseIdentifier: SearchResultSubtitleTableViewCell.identifer)
@@ -24,12 +25,15 @@ class LibraryAlbumViewController: UIViewController {
         view.addSubview(tableView)
         setUpNoAlbums()
         fetchData()
+        observer = NotificationCenter.default.addObserver(forName: .albumSavedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.fetchData()
+        })
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         noAlbumView.frame = CGRect(x: (view.width-150)/2, y: (view.height-150)/2, width: 150, height: 150)
-        tableView.frame = view.bounds
+        tableView.frame = CGRect(x: 0, y: 0, width: view.width, height: view.height)
     }
     
     //MARK: - private func
@@ -39,6 +43,7 @@ class LibraryAlbumViewController: UIViewController {
         view.addSubview(noAlbumView)
     }
     func fetchData(){
+        albums.removeAll()
         ApiCaller.shared.getCurrentUserAlbums{ [weak self] result in
             DispatchQueue.main.async {
                 switch result {

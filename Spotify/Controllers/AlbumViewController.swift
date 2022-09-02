@@ -9,12 +9,11 @@ import UIKit
 
 class AlbumViewController: UIViewController {
     
-    
     //MARK: - vars & outlets
     private var viewModels = [AlbumCollectionViewCellViewModel]()
     private let album: Album
     private var tracks = [AudioTrack]()
-
+    
     //collection view
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { _, _ in
         // item
@@ -58,6 +57,26 @@ class AlbumViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        fetchData()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(buttonDidTapped))
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView.frame = view.bounds
+    }
+    @objc func buttonDidTapped(){
+        let actionSheet = UIAlertController(title: album.name, message: "Do you want to save this album!", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Save Album", style: .default, handler: {[weak self] _ in
+            guard let strongSelf = self else{return}
+            ApiCaller.shared.saveAlbum(album: strongSelf.album, completion: { success in
+                // here post the notification to all the app who observe this notification
+                NotificationCenter.default.post(name: Notification.Name.albumSavedNotification, object: nil)
+            })
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancle", style: .cancel, handler: nil))
+        present(actionSheet, animated: true, completion: nil)
+    }
+    func fetchData(){
         ApiCaller.shared.getAlbumDetails(for: album) { [weak self] result in
             DispatchQueue.main.async {
                 switch result{
@@ -76,10 +95,6 @@ class AlbumViewController: UIViewController {
                 }
             }
         }
-    }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        collectionView.frame = view.bounds
     }
 }
 //MARK: - UICollectionViewDelegate, UICollectionViewDataSource
@@ -114,9 +129,7 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSou
         var track = tracks[indexPath.row]
         track.album = self.album
         PlaybackPresenter.shared.startPlayback(from: self, track: track)
-        
     }
-    
 }
 extension AlbumViewController: PlaylistHeaderCollectionReusableViewDelegate{
     func PlaylistHeaderCollectionReusableViewDidTappedPlayAll(header: PlaylistHeaderCollectionReusableView) {
@@ -128,7 +141,5 @@ extension AlbumViewController: PlaylistHeaderCollectionReusableViewDelegate{
             return track
         })
         PlaybackPresenter.shared.startPlayback(from: self, tracks: trackWithAlbum)
-        
-
     }
 }
